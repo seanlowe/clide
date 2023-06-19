@@ -2,22 +2,26 @@ package main
 
 import (
 	"fmt"
-	clide "github.com/TeddyRandby/clide/app"
 	"os"
 	"strings"
+
+	clide "github.com/TeddyRandby/clide/app"
 )
 
-func main() {
+func exitIfNotOk(c clide.Clide) {
+	if !c.Ok() {
+		fmt.Println(c.Err())
+		os.Exit(1)
+	}
+}
 
+func main() {
 	args := os.Args[1:]
 
 	params := make(map[string]string)
 	c := clide.New(params)
 
-	if !c.Ok() {
-		c.Run()
-		return
-	}
+	exitIfNotOk(c)
 
 	if len(args) > 0 && args[0] == "@" {
 		// Process the args as builtins, don't run
@@ -58,10 +62,7 @@ func main() {
 
 	c = clide.New(params)
 
-	if !c.Ok() {
-		c.Run()
-		return
-	}
+	exitIfNotOk(c)
 
 	for _, step := range steps {
 		c, _ = c.SelectPath(step)

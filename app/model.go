@@ -141,7 +141,7 @@ func New(args map[string]string) Clide {
 			args:   args,
 			keymap: DefaultKeyMap,
 			help:   help.New(),
-		}.Error("No project found")
+		}.Error("No .clide/ directory found in project")
 		return m
 	}
 
@@ -171,7 +171,7 @@ func (m Clide) env() []string {
 func (m Clide) Run() {
 	if m.state == ClideStateDone {
 		syscall.Exec(m.node.Path, []string{m.node.Name}, m.env())
-        return
+		return
 	}
 
 	c, err := tea.NewProgram(m).Run()

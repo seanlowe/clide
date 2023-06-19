@@ -15,6 +15,14 @@ func exitIfNotOk(c clide.Clide) {
 	}
 }
 
+func getLeaves(c clide.Clide) {
+	leaves := c.Leaves()
+
+	for _, leaf := range leaves {
+		fmt.Printf("%s %s\n", leaf.Title(), leaf.Description())
+	}
+}
+
 func main() {
 	args := os.Args[1:]
 
@@ -27,13 +35,7 @@ func main() {
 		// Process the args as builtins, don't run
 		switch args[1] {
 		case "ls":
-
-			leaves := c.Leaves()
-
-			for _, leaf := range leaves {
-				fmt.Printf("%s %s\n", leaf.Title(), leaf.Description())
-			}
-
+			getLeaves(c)
 			return
 		default:
 			m, _ := c.Error(fmt.Sprintf("Unknown builtin command '%s'", args[1]))
